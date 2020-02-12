@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include <Vector2.h>
+#include "BaseScene.h"
 
 class SceneMng;
 
@@ -15,6 +17,9 @@ public:
 
 	void Run(void);				// ¹Þ°ÑÙ°Ìß
 
+	const vector2Dbl ScreenSize;
+	const vector2Dbl ScreenCenter;
+
 private :
 	struct SceneMngDeleter
 	{
@@ -27,6 +32,9 @@ private :
 	~SceneMng();
 	static std::unique_ptr<SceneMng, SceneMngDeleter> sInstance;
 
-	void SysInit();
+	bool SysInit(void);
+	void Draw(void);
+
+	UniqueBase _activeScene;
 };
 
