@@ -421,9 +421,9 @@ GameObject:
   m_Component:
   - component: {fileID: 614160912}
   - component: {fileID: 614160911}
-  - component: {fileID: 614160913}
-  - component: {fileID: 614160914}
   - component: {fileID: 614160915}
+  - component: {fileID: 614160914}
+  - component: {fileID: 614160913}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -530,7 +530,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.1, y: 0.2}
+  m_Size: {x: 0.08, y: 0.17}
   m_Direction: 0
 --- !u!114 &614160915
 MonoBehaviour:
