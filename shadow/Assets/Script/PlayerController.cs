@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float maxSpeed_ = 2.0f;
+    private float moveForce_ = 10.0f;
+    private float speed_ = 5.0f;
     private int key = 0;
 
     private Vector2 velocity_;
@@ -19,10 +20,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float speed = Mathf.Abs(rigidbody2D_.velocity.x);
-        if(speed < maxSpeed_)
+        float moveInput = Input.GetAxis("Horizontal");
+        if(moveInput != 0)
         {
-
+            rigidbody2D_.position += new Vector2(speed_ * moveInput, 0.0f) * Time.deltaTime;
         }
     }
 }
