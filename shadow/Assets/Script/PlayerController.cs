@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Player
 {
@@ -8,8 +9,9 @@ namespace Player
     {
         [SerializeField] private float speed_ = 3.0f;
         [SerializeField] private float jumpVec_ = 4.0f;
-        private int dashCnt_ = 1;
-        private float dashSpeed_ = 10.0f;
+        private int dashCnt_ = 20;
+        private float dashSpeed_ = 20.0f;
+        private Vector2 dashVec_;
         private bool isGround;
         private PlayerState plState_;
 
@@ -31,9 +33,26 @@ namespace Player
             // ﾀﾞｯｼｭ(ﾀﾞｯｼｭ中は移動とかできないようにする)
             if (Input.GetButtonDown("Dash"))
             {
-                float dashRad = Vector2.Angle(Vector2.zero, moveInput);
-                Vector2 dashVec = new Vector2(dashSpeed_ * Mathf.Cos(dashRad), dashSpeed_ * Mathf.Sin(dashRad));
-                return;
+                if (plState_ != PlayerState.Dash)
+                {
+                    float dashRad = Mathf.Atan2(moveInput.y, moveInput.x);
+                    dashVec_ = new Vector2(dashSpeed_ * Mathf.Cos(dashRad), dashSpeed_ * Mathf.Sin(dashRad));
+                    plState_ = PlayerState.Dash;
+                }
+            }
+            if (plState_ == PlayerState.Dash)
+            {
+                if(dashCnt_ > 0)
+                {
+                    rigidbody2D_.position += dashVec_ * Time.deltaTime;
+                    dashCnt_--;
+                    return;
+                }
+                else
+                {
+                    plState_ = PlayerState.Idle;
+                    dashCnt_ = 20;
+                }
             }
 
             // 左右移動
@@ -43,10 +62,11 @@ namespace Player
             }
 
             // ｼﾞｬﾝﾌﾟ
-            if (Input.GetButtonDown("Jump"))
+            if (isGround)
             {
-                if (isGround)
+                if (Input.GetButtonDown("Jump"))
                 {
+                    rigidbody2D_.velocity = Vector2.zero;
                     rigidbody2D_.AddForce(Vector2.up * jumpVec_, ForceMode2D.Impulse);
                     isGround = false;
                 }
@@ -55,8 +75,17 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            isGround = true;
-            Debug.Log("接地した");
+            if(!isGround)
+            {
+                isGround = true;
+                Debug.Log("接地した");
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            plState_ = PlayerState.Idle;
+            dashCnt_ = 20;
         }
     }
 }
