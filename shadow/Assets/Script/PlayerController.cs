@@ -16,10 +16,14 @@ namespace Player
         private PlayerState plState_;
 
         private Rigidbody2D rigidbody2D_;
+        private GameObject light2D_;
+        private Collider2D collider2D_;
 
         // Start is called before the first frame update
         void Start()
         {
+            light2D_ = GameObject.Find("Point Light 2D");
+            collider2D_ = GetComponent<CapsuleCollider2D>();
             rigidbody2D_ = GetComponent<Rigidbody2D>();
             isGround = true;
             plState_ = PlayerState.Idle;
@@ -71,6 +75,9 @@ namespace Player
                     isGround = false;
                 }
             }
+
+            Vector2 up = new Vector2(transform.position.x, transform.position.y + collider2D_.bounds.size.y / 2.0f);
+            Vector2 down = new Vector2(transform.position.x, transform.position.y - collider2D_.bounds.size.y / 2.0f);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
