@@ -49,18 +49,6 @@ namespace Player
             RaycastHit2D upHit = Physics2D.Raycast(up, (Vector2)light2D_.transform.position - up, Vector2.Distance(up, light2D_.transform.position));
             RaycastHit2D downHit = Physics2D.Raycast(down, (Vector2)light2D_.transform.position - down, Vector2.Distance(down, light2D_.transform.position));
             isHide = (upHit.collider.gameObject.name != "Light") && (downHit.collider.gameObject.name != "Light");
-            //// 背景の影に入れるか
-            //if (isHide)
-            //{
-            //    plState_ = PlayerState.Hide;
-            //}
-            //else
-            //{
-            //    plState_ = PlayerState.Normal;
-            //}
-            Debug.DrawRay(up, upHit.point - up, Color.red);
-            Debug.DrawRay(down, downHit.point - down, Color.red);
-
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
